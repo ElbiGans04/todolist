@@ -1,0 +1,22 @@
+.container-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container-header .name {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.container-header .icon .add {
+    display: flex;
+}
+
+.container-header .icon .add .add-action { 
+    margin-left: 1rem;
+}
+
+.container-header .icon .add .add-action button {
+    margin-left: .5rem;
+ }
