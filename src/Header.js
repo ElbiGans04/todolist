@@ -1,5 +1,6 @@
 import React from 'react';
 import './Header.css';
+import {requestOnError, requestOnSuccess, transactionOnComplate, transactionOnError, error} from './indexDB';
 
 
 class Header extends React.Component {
@@ -33,20 +34,20 @@ class Header extends React.Component {
                       transaksiObjek = transaksi.objectStore('task'),
                       req = transaksiObjek.add({value, done: false, date: Date.now()});
         
-                req.onerror = function () {
-                    console.log("Data Gagal")
+                req.onerror = requestOnError;
+                req.onsuccess = (event) => {
+                    this.setState((state, props) => {
+                        this.props.getData();
+                        requestOnSuccess(event);
+
+                        return {addValue: ''}
+                    })
                 };
-        
-                req.onsuccess = () => {
-                    console.log("Data berhasil ditambahkan");
-                    this.setState({addValue: ''});
-                    this.props.getData();
-                }
+                transaksi.oncomplete = transactionOnComplate;
+                transaksi.onerror = transactionOnError;
             };
     
-            indexDB.onerror = function () {
-                console.error("Error Woy")
-            }
+            indexDB.onerror = error;
         }
 
     }
@@ -58,13 +59,13 @@ class Header extends React.Component {
     render () {
         return (
             <div className="container-header">
-                <h1 className="name">ToDoList</h1>
+                <h1 className="name">ToDoList<span><a href="https://elbi.vercel.app" title="original author">By Rhafael Bijaksana</a></span></h1>
                 <div className="icon">
                     <div className="add">
-                        <button className="add-button" onClick={this.addHandleClick}>{this.state.addOpen === true ? 'X' : '+ Add'}</button>
+                        <button title="add new task" className="add-button button" onClick={this.addHandleClick}>{this.state.addOpen === true ? 'X' : '+ Add'}</button>
                         {this.state.addOpen && <div className="add-action">
-                            <input type="text" value={this.state.addValue} onChange={this.addActionHandleInput}/>
-                            <button onClick={this.addActionHandleClick}>Add</button>
+                            <input title="add new task" type="text" value={this.state.addValue} onChange={this.addActionHandleInput}/>
+                            <button onClick={this.addActionHandleClick} className="button">Add</button>
                         </div>}
                     </div>
                 </div>

@@ -3,6 +3,8 @@ import "./App.css";
 import "./reset.css";
 import Header from "./Header";
 import Main from "./Main";
+import List from './List';
+import {upgradeneeded, error, transactionOnComplate, transactionOnError, requestOnError} from "./indexDB";
 
 class App extends React.Component {
   constructor(props) {
@@ -32,6 +34,36 @@ class App extends React.Component {
       resultObjek.onsuccess = () => {
         resultObjekKeys.onsuccess = () => {
           let resultObjek2 = resultObjek.result.map((val, idx) => {
+
+            // Check If Task have done
+            if(val.done) {
+              const date = new Date(val.date);
+              const dateNow = new Date();
+
+              // Jika sudah lewat hari
+              if(date.getDate() !== dateNow.getDate()) {
+                const keys = resultObjekKeys.result[idx];
+                const indexDB = indexedDB.open("toDoList", 1);
+                
+                indexDB.onsuccess = (event) => {
+                  const result = indexDB.result;
+                  const transaction = result.transaction("task", "readwrite");
+                  const transactionObj = transaction.objectStore("task");
+                  const request = transactionObj.delete(keys);
+
+                  // Event Handling
+                  transaction.oncomplete = transactionOnComplate;
+                  transaction.onerror = transactionOnError;
+                  request.onerror = requestOnError;
+                  request.onsuccess = (event) => {
+                    this.getData()
+                  }
+                }
+                
+                // Event handling
+                indexDB.onerror = error;
+              }
+            }
             return (
               <List
                 value={val}
@@ -50,14 +82,8 @@ class App extends React.Component {
       };
     };
 
-    indexDB.onupgradeneeded = function () {
-      const result = indexDB.result,
-        transaction = result.createObjectStore("task", { autoIncrement: true });
-    };
-
-    indexDB.onerror = function () {
-      console.log("Gagal");
-    };
+    indexDB.onupgradeneeded = upgradeneeded;
+    indexDB.onerror = error;
   }
 
   render() {
@@ -70,93 +96,6 @@ class App extends React.Component {
   }
 }
 
-class List extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      updateMode: false,
-      updateValue: this.props.value.value,
-    };
-    this.handleCheckbox = this.handleCheckbox.bind(this);
-    this.handleEditMode = this.handleEditMode.bind(this);
-    this.handleEditInput = this.handleEditInput.bind(this);
-    this.handleEditAction = this.handleEditAction.bind(this);
-  }
 
-  handleEditMode() {
-    this.setState((state, props) => ({ updateMode: !state.updateMode }));
-  }
-
-  handleEditInput(event) {
-    let value = event.target.value;
-    this.setState({ updateValue: value.length <= 0 ? this.props.value.value : value });
-  }
-
-  handleEditAction () {
-    const value = this.props.value,
-          id = this.props.id;
-    value.value = this.state.updateValue;
-
-    const indexDB = indexedDB.open("toDoList", 1);
-
-    indexDB.onsuccess = () => {
-      const result = indexDB.result,
-        transaction = result.transaction("task", "readwrite"),
-        transactionObj = transaction.objectStore("task"),
-        request = transactionObj.put(value, id);
-
-      request.onsuccess = () => {
-        console.log("Berhasil");
-      };
-
-      request.onerror = () => {
-        console.log("Gagal");
-      };
-    };
-  }
-
-  handleCheckbox(e) {
-    let value = this.props.value,
-      id = this.props.id;
-    value.done = e.target.checked;
-
-    const indexDB = indexedDB.open("toDoList", 1);
-
-    indexDB.onsuccess = () => {
-      const result = indexDB.result,
-        transaction = result.transaction("task", "readwrite"),
-        transactionObj = transaction.objectStore("task"),
-        request = transactionObj.put(value, id);
-
-      request.onsuccess = () => {
-        console.log("Berhasil");
-      };
-
-      request.onerror = () => {
-        console.log("Gagal");
-      };
-    };
-  }
-
-  render() {
-    return (
-      <li>
-        <input type="checkbox" onChange={this.handleEditMode} />
-        {this.state.updateMode ? (
-          <span>
-            <input
-              value={this.state.updateValue}
-              onChange={this.handleEditInput}
-            ></input>
-            <button onClick={this.handleEditAction}>Update</button>
-          </span>
-        ) : (
-          this.props.value.value
-        )}
-        <input type="checkbox" onChange={this.handleCheckbox} />
-      </li>
-    );
-  }
-}
 
 export default App;
