@@ -24,6 +24,10 @@ class Header extends React.Component {
         }))
     }
 
+    addActionHandleInput (event) {
+        this.setState({addValue: event.target.value});
+    }
+    
     addActionHandleClick (event) {
         const value = this.state.addValue;
         if(value.length > 0) {
@@ -32,7 +36,7 @@ class Header extends React.Component {
                 const result = indexDB.result,
                       transaksi = result.transaction('task', 'readwrite'),
                       transaksiObjek = transaksi.objectStore('task'),
-                      req = transaksiObjek.add({value, done: false, date: Date.now()});
+                      req = transaksiObjek.add({value, done: false, date: 1623085200000});
         
                 req.onerror = requestOnError;
                 req.onsuccess = (event) => {
@@ -52,14 +56,11 @@ class Header extends React.Component {
 
     }
 
-    addActionHandleInput (event) {
-        this.setState({addValue: event.target.value});
-    }
 
     render () {
         return (
             <div className="container-header">
-                <h1 className="name">ToDoList<span><a href="https://elbi.vercel.app" title="original author">By Rhafael Bijaksana</a></span></h1>
+                <h1 className="name">ToDoList<span><a href="https://elbi.vercel.app" title="slogan">Schedule your assignments</a></span></h1>
                 <div className="icon">
                     <div className="add">
                         <button title="add new task" className="add-button button" onClick={this.addHandleClick}>{this.state.addOpen === true ? 'X' : '+ Add'}</button>

@@ -113,7 +113,7 @@ class List extends React.Component {
           <input
             title="mark task complete"
             type="checkbox"
-            defaultChecked={this.props.value.done}
+            defaultChecked={this.state.done}
             onChange={this.handleCheckbox}
           />
         </td>
