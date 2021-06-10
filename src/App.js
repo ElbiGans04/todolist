@@ -4,7 +4,6 @@ import "./reset.css";
 import Header from "./Header";
 import Main from "./Main";
 import List from "./List";
-import Footer from "./Footer";
 import {
   upgradeneeded,
   error,
@@ -13,6 +12,7 @@ import {
   requestOnError,
   requestOnSuccess,
 } from "./indexDB";
+import { BsFillHeartFill } from "react-icons/bs";
 
 class App extends React.Component {
   constructor(props) {
@@ -32,28 +32,31 @@ class App extends React.Component {
   }
 
   shouldDeleteData(keys) {
-    const indexDB = indexedDB.open("toDoList", 1);
+    if (keys.length > 0) {
+      const indexDB = indexedDB.open("toDoList", 1);
 
-    indexDB.onsuccess = (event) => {
-      const result = indexDB.result;
-      keys.forEach((val, key) => {
-        const transaction = result.transaction("task", "readwrite");
-        const transactionObj = transaction.objectStore("task");
-        const request = transactionObj.delete(val);
-  
-        // Event Handling
-        transaction.oncomplete = transactionOnComplate;
-        transaction.onerror = transactionOnError;
-        request.onerror = requestOnError;
-        request.onsuccess = requestOnSuccess;
-      });
+      indexDB.onsuccess = (event) => {
+        const result = indexDB.result;
+        keys.forEach((val, key) => {
+          const transaction = result.transaction("task", "readwrite");
+          const transactionObj = transaction.objectStore("task");
+          const request = transactionObj.delete(val);
 
-      // Ambil Data Terbaru
-      this.getData();
-    };
+          // Event Handling
+          transaction.oncomplete = transactionOnComplate;
+          transaction.onerror = transactionOnError;
+          request.onerror = requestOnError;
+          request.onsuccess = requestOnSuccess;
+        });
 
-    // Event handling
-    indexDB.onerror = error;
+        // Ambil Data Terbaru
+        this.getData();
+      };
+      
+      // Event handling
+      indexDB.onerror = error;
+    }
+
   }
 
   getData() {
@@ -101,7 +104,9 @@ class App extends React.Component {
       };
     };
 
-    indexDB.onupgradeneeded = upgradeneeded;
+    indexDB.onupgradeneeded = () => {
+      upgradeneeded(indexDB.result);
+    };
     indexDB.onerror = error;
   }
 
@@ -110,7 +115,17 @@ class App extends React.Component {
       <div className="container">
         <Header getData={this.getData} />
         <Main result={this.state.result} />
-        <Footer></Footer>
+        <div>
+          <h1 style={{ textAlign: "center", marginTop: "3rem" }}>
+            Made with {<BsFillHeartFill size={10}></BsFillHeartFill>} by{" "}
+            <a
+              style={{ textDecoration: "none", color: "blue" }}
+              href="https://elbi.vercel.app"
+            >
+              Rhafael Bijaksana
+            </a>
+          </h1>
+        </div>
       </div>
     );
   }

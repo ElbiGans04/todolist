@@ -1,5 +1,4 @@
 import React from 'react';
-import './Header.css';
 import {requestOnError, requestOnSuccess, transactionOnComplate, transactionOnError, error} from './indexDB';
 
 
@@ -36,7 +35,7 @@ class Header extends React.Component {
                 const result = indexDB.result,
                       transaksi = result.transaction('task', 'readwrite'),
                       transaksiObjek = transaksi.objectStore('task'),
-                      req = transaksiObjek.add({value, done: false, date: 1623085200000});
+                      req = transaksiObjek.add({value, done: false, date: Date.now()});
         
                 req.onerror = requestOnError;
                 req.onsuccess = (event) => {

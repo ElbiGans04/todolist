@@ -28,6 +28,228 @@
 
 
 
+/* 
+
+  Header
+
+*/
+
+
+.container-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container-header .name {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.container-header .name:hover span a {
+  opacity: 1;
+}
+
+.container-header .name span {
+  display: flex;
+  justify-content: center;
+}
+
+.container-header .name span a {
+  color: white;
+  font-size: .8rem;
+  text-decoration: none;
+  position: absolute;
+  top: 100%;
+  opacity: 0;
+  transition: .3s;
+}
+
+.container-header .name span a:hover {
+  text-decoration: underline;
+}
+
+.container-header .icon .add {
+  display: flex;
+}
+
+
+.container-header .icon .add .add-action { 
+  margin-left: 1rem;
+}
+
+.container-header .icon .add .add-action input {
+  border-radius: .2rem;
+  /* border: none; */
+  outline: none;
+  border: 1px solid rgba(255, 255, 255, .5);
+}
+
+.container-header .icon .add .add-action input:focus, 
+.container-header .icon .add .add-action input:hover {
+  box-shadow: 0  0 .5rem rgba(255, 255, 255, .5);
+}
+
+.container-header .icon .add .add-action button {
+  margin-left: .5rem;
+}
+
+
+/* 
+
+  Akhir dari Header
+
+*/
+/* 
+
+  Main
+
+*/
+
+
+.container-main {
+    display: flex;
+    margin-top: 3rem;
+    justify-content: center;
+}
+
+.container-main table {
+    width: 100%;
+}
+
+.container-main table tbody tr, .container-main table thead tr {
+    display: flex;
+    justify-content: space-between;
+    padding: .5rem;  
+    align-items: center; 
+}
+
+.container-main table thead tr th {
+    font-weight: bold;
+}
+
+.container-main table thead tr th:nth-child(1) {
+    margin-left: 2rem;
+}
+
+
+/* Tbody */
+
+.container-main table tbody tr.done {
+    opacity: .3;
+    text-decoration: line-through;
+}
+
+
+.container-main table tbody tr td:nth-child(1) span { 
+    margin-right: 1rem;
+}
+
+
+.container-main > table > tbody > tr > td > span {
+    position: relative
+}
+
+.container-main > table > tbody > tr > td  span  input {
+    border-radius: .2rem;
+    /* border: none; */
+    outline: none;
+    border: 1px solid rgba(255, 255, 255, .5);
+}
+
+.container-main > table > tbody > tr > td:nth-child(1) > span:nth-child(1) > input {
+    position: absolute;
+    left: -2px;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.container-main > table > tbody > tr > td:nth-child(1) > span:nth-child(2) button{
+    margin-left: .5rem;
+}
+.container-main > table > tbody > tr > td > span > input:focus, 
+.container-main > table > tbody > tr > td > span > input:hover {
+    box-shadow: 0  0 .5rem rgba(255, 255, 255, .5);
+}
+
+/* 
+
+  Akhir dari Main
+
+*/
+
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;1,600;1,700;1,900&display=swap');
+
+.container-main {
+    display: flex;
+    margin-top: 3rem;
+    justify-content: center;
+}
+
+.container-main table {
+    width: 100%;
+}
+
+.container-main table tbody tr, .container-main table thead tr {
+    display: flex;
+    justify-content: space-between;
+    padding: .5rem;  
+    align-items: center; 
+}
+
+.container-main table thead tr th {
+    font-weight: bold;
+}
+
+.container-main table thead tr th:nth-child(1) {
+    margin-left: 2rem;
+}
+
+
+/* Tbody */
+
+.container-main table tbody tr.done {
+    opacity: .3;
+    text-decoration: line-through;
+}
+
+
+.container-main table tbody tr td:nth-child(1) span { 
+    margin-right: 1rem;
+}
+
+
+.container-main > table > tbody > tr > td > span {
+    position: relative
+}
+
+.container-main > table > tbody > tr > td  span  input {
+    border-radius: .2rem;
+    /* border: none; */
+    outline: none;
+    border: 1px solid rgba(255, 255, 255, .5);
+}
+
+.container-main > table > tbody > tr > td:nth-child(1) > span:nth-child(1) > input {
+    position: absolute;
+    left: -2px;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.container-main > table > tbody > tr > td:nth-child(1) > span:nth-child(2) button{
+    margin-left: .5rem;
+}
+.container-main > table > tbody > tr > td > span > input:focus, 
+.container-main > table > tbody > tr > td > span > input:hover {
+    box-shadow: 0  0 .5rem rgba(255, 255, 255, .5);
+}
 /* Responsive */
 
 @media screen and (max-width: 768px) {
