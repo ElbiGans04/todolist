@@ -84,12 +84,11 @@ class List extends React.Component {
 
   render() {
     return (
-      <tr className={this.state.done ? "done" : ""}>
-        <td>
+      <div className={this.state.done ? "done" : ""}>
           <span>
             <MdModeEdit/>
             <input
-              disabled={this.state.done ? "true" : ""}
+              disabled={this.state.done ? true : false}
               title="update task"
               type="checkbox"
               onChange={this.handleEditMode}
@@ -106,19 +105,53 @@ class List extends React.Component {
               </button>
             </span>
           ) : (
-            this.props.value.value
+            <span>{this.props.value.value}</span>
           )}
-        </td>
-        <td>
+
           <input
             title="mark task complete"
             type="checkbox"
             defaultChecked={this.state.done}
             onChange={this.handleCheckbox}
           />
-        </td>
-      </tr>
+      </div>
     );
+    // return (
+    //   <tr className={this.state.done ? "done" : ""}>
+    //     <td>
+    //       <span>
+    //         <MdModeEdit/>
+    //         <input
+    //           disabled={this.state.done ? "true" : ""}
+    //           title="update task"
+    //           type="checkbox"
+    //           onChange={this.handleEditMode}
+    //         />
+    //       </span>
+    //       {this.state.editMode ? (
+    //         <span>
+    //           <input
+    //             value={this.state.editValue}
+    //             onChange={this.handleEditInput}
+    //           ></input>
+    //           <button onClick={this.handleEditAction} className="button">
+    //             Update
+    //           </button>
+    //         </span>
+    //       ) : (
+    //         this.props.value.value
+    //       )}
+    //     </td>
+    //     <td>
+    //       <input
+    //         title="mark task complete"
+    //         type="checkbox"
+    //         defaultChecked={this.state.done}
+    //         onChange={this.handleCheckbox}
+    //       />
+    //     </td>
+    //   </tr>
+    // );
   }
 }
 
